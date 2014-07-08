@@ -1,12 +1,20 @@
 geocoder = require('../index.js');
 
-
-
 module.exports = {
 
   setUp:function(cb) {
     geocoder.selectProvider("google");
     cb()
+  },
+
+  testCreateSignature : function (test) {
+    var client_id = 'clientID';
+    var path_to_sign = '/maps/api/geocode/json?address=New+York&sensor=false&client=' + client_id;
+    var crypto_key = 'vNIXE0xscrmjlyV-12Nj_BvUPaw=';
+    var signature = geocoder.providerObj.generate_signature(path_to_sign, crypto_key);
+
+    test.equals(signature, 'KrU1TzVQM7Ur0i8i7K3huiw3MsA=');
+    test.done();
   },
 
   testExposeGeocodeFunction: function(test){
