@@ -28,9 +28,12 @@ exports.geocode = function ( providerOpts, loc, cbk, opts) {
   var options = _.extend({sensor: false, address: loc}, opts || {});
 
   if ( options.client && options.crypto_key ) {
+    var crypto_key = options.crypto_key;
+
+    delete options.crypto_key;
+
     var url_to_sign = uri + '?' + querystring.stringify( options );
-    options.signature = generate_signature( url_to_sign, options.crypto_key );
-    delete options.crypto_key
+    options.signature = generate_signature( url_to_sign, crypto_key );
   }
 
   request({
