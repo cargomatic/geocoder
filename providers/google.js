@@ -21,15 +21,16 @@ exports.generate_signature = function ( path, crypto_key ) {
   return sanitize(signature.digest("base64"));
 };
 
-exports.geocode = function ( providerOpts, loc, cbk, opts, crypto_key ) {
+exports.geocode = function ( providerOpts, loc, cbk, opts) {
 
   var uri = "/maps/api/geocode/json";
 
   var options = _.extend({sensor: false, address: loc}, opts || {});
 
-  if ( options.client && crypto_key ) {
+  if ( options.client && options.crypto_key ) {
     var url_to_sign = uri + '?' + querystring.stringify( options );
-    options.signature = generate_signature( url_to_sign, crypto_key );
+    options.signature = generate_signature( url_to_sign, options.crypto_key );
+    delete options.crypto_key
   }
 
   request({
