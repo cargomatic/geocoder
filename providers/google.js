@@ -14,7 +14,7 @@ var sanitize = function (string) {
       .replace(/\//g, '_');
 };
 
-exports.generate_signature = function ( path, crypto_key ) {
+exports.generate_signature = generate_signature = function ( path, crypto_key ) {
   var decoded_key = new Buffer(sanitize(crypto_key), "base64");
   var signature = crypto.createHmac("sha1", decoded_key).update(path);
 
